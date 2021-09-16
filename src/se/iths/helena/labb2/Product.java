@@ -4,10 +4,10 @@ public class Product {
     private String name;
     private int price;
     private Category category;
-    private Brand brand;
+    private String brand;
     private int BarCode;
 
-    public Product(String name, int price, Category category, Brand brand, int barCode) {
+    public Product(String name, int price, Category category, String brand, int barCode) {
         this.name = name;
         this.price = price;
         this.category = category;
@@ -39,11 +39,11 @@ public class Product {
         this.category = category;
     }
 
-    public Brand getBrand() {
+    public String getBrand() {
         return brand;
     }
 
-    public void setBrand(Brand brand) {
+    public void setBrand(String brand) {
         this.brand = brand;
     }
 
@@ -53,16 +53,5 @@ public class Product {
 
     public void setBarCode(int barCode) {
         BarCode = barCode;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", category=" + category +
-                ", brand=" + brand +
-                ", BarCode=" + BarCode +
-                '}';
     }
 }

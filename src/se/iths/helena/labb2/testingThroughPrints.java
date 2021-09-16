@@ -10,12 +10,12 @@ public class testingThroughPrints {
 
         frukt.addSubcategory(meloner);
         frukt.addSubcategory(apples);
-        frukt.printSubcategories();
 
         System.out.println(apples.getHigherLevelCategory().getName());
         System.out.println(frukt.getHigherLevelCategory().getName());
+        apples.printSubcategories();
 
-        Product product = new Product("Royal gala", 20, apples, Brand.TEST,1111111);
+        Product product = new Product("Royal gala", 20, apples, "Some brand",1111111);
         System.out.println(product.getCategory().getHigherLevelCategory().getName());
 
     }
