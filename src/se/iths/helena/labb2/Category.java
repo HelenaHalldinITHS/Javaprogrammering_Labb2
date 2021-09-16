@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Category {
-    String name;
-    List<Category> subcategorys = new ArrayList<Category>();
+    private String name;
+    private List<Category> subcategorys = new ArrayList<>();
+
+    public Category(String name) {
+        this.name = name;
+    }
+
 }
