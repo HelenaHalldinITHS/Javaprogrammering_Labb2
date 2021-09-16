@@ -15,4 +15,18 @@ class CategoryTest {
         assertEquals(meloner,frukt.getSubcategories().get(0));
     }
 
+    @Test
+    void HigherLevelCategoryOfFruitShouldBeCategories(){
+        Category frukt = new Category("Frukt");
+        assertEquals("Categories",frukt.getHigherLevelCategory().getName());
+    }
+
+    @Test
+    void HigherLevelCategoryOfAppleShouldBeFrukt(){
+        Category frukt = new Category("Frukt");
+        Category apple = new Category("Äpple");
+        frukt.addSubcategory(apple);
+        assertEquals("Frukt",apple.getHigherLevelCategory().getName());
+    }
+
 }
