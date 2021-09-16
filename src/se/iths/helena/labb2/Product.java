@@ -54,4 +54,40 @@ public class Product {
     public void setBarCode(int barCode) {
         BarCode = barCode;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+
+        if (price != product.price) return false;
+        if (BarCode != product.BarCode) return false;
+        if (name != null ? !name.equals(product.name) : product.name != null) return false;
+        if (category != null ? !category.equals(product.category) : product.category != null) return false;
+        return brand != null ? brand.equals(product.brand) : product.brand == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + price;
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        result = 31 * result + (brand != null ? brand.hashCode() : 0);
+        result = 31 * result + BarCode;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", category=" + category +
+                ", brand='" + brand + '\'' +
+                ", BarCode=" + BarCode +
+                '}';
+    }
 }
