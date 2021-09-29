@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * a product available in the store.
  */
 
-public class Products {
+public class Products implements Iterable<Product>{
     private Set<Product> products;
 
     public Products(){
@@ -46,4 +46,8 @@ public class Products {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Iterator<Product> iterator() {
+        return products.iterator();
+    }
 }

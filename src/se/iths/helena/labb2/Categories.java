@@ -28,6 +28,14 @@ public class Categories implements Iterable<Category> {
                 .filter(category -> category.getName().equals(name))
                 .findAny();
     }
+    public Category getFromString(String name) {
+        Optional<Category> optionalCategory = categories.stream()
+                .filter(category -> category.getName().equals(name))
+                .findAny();
+        if (optionalCategory.isEmpty())
+            throw new IllegalArgumentException();
+        return optionalCategory.get();
+    }
 
     public List<Category> getAllCategories() {
         //returnera en variant som inte får modifieras!!
@@ -37,6 +45,18 @@ public class Categories implements Iterable<Category> {
     public List<Category> getSubCategories(Category highestCategory) {
         return categories.stream()
                 .filter(category -> isSubCategory(highestCategory, category))
+                .collect(Collectors.toList());
+    }
+
+    public List<Category> getSubCategoriesInclusiveThisCategory(Category highestCategory) {
+        List <Category> list = getSubCategories(highestCategory);
+        list.add(highestCategory);
+        return List.copyOf(list);
+    }
+
+    public List<Category> getOneLevelOfSubCategories(Category highestCategory) {
+        return categories.stream()
+                .filter(category -> category.getHigherLevelCategory().equals(highestCategory))
                 .collect(Collectors.toList());
     }
 

@@ -9,9 +9,6 @@ public class CategoryFactory {
     private static Categories categories = new Categories();
     private static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        run();
-    }
 
     public static void run(){
         readFromFile();
@@ -47,6 +44,12 @@ public class CategoryFactory {
         while (!inputCanBeProcessed(name, scanner.nextLine())) {
             System.out.println("Försök igen, jag förstå ej: ");
         }
+
+        saveToFile();
+    }
+
+    private static void saveToFile() {
+        //spara ny kategori
     }
 
     private static boolean inputCanBeProcessed(String name, String input) {
@@ -89,10 +92,10 @@ public class CategoryFactory {
         System.out.println("1. Lägg till kategorier");
         System.out.println("2. Se en överblick över alla kategorier");
         System.out.println("3. Se kategoris sub kategorier");
-        System.out.println("3. Avsluta");
+        System.out.println("4. Avsluta");
     }
 
-    private static void printAllCategories(){
+    public static void printAllCategories(){
         categories.forEach(category -> System.out.println(category.getName()));
     }
 
