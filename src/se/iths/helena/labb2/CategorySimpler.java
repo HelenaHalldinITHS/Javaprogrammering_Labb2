@@ -10,6 +10,11 @@ public class CategorySimpler {
         this.name = name;
     }
 
+    public CategorySimpler(String name, Category higherCategory) {
+        this.name = name;
+        this.higherCategory = higherCategory;
+    }
+
     public Category getHigherLevelCategory() {
         if (higherCategory == null)
             return highestCategory;
@@ -19,6 +24,10 @@ public class CategorySimpler {
 
     public String getName() {
         return name;
+    }
+
+    public void setHigherLevelCategory(Category higherCategory) {
+        this.higherCategory = higherCategory;
     }
 
 }
