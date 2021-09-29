@@ -3,15 +3,15 @@ package se.iths.helena.labb2;
 public class Main {
     public static void main(String[] args) {
         //Skapa kategorier
-        CategorySimpler brod = new CategorySimpler("Bröd");
-        CategorySimpler mejeri = new CategorySimpler("Mejeri");
-        CategorySimpler fisk = new CategorySimpler("Fisk");
+        Category brod = new Category("Bröd");
+        Category mejeri = new Category("Mejeri");
+        Category fisk = new Category("Fisk");
 
-        CategorySimpler fruktOchGront = new CategorySimpler("Frukt och Grönt");
-        CategorySimpler frukt = new CategorySimpler("Frukt", fruktOchGront);
-        CategorySimpler meloner = new CategorySimpler("Meloner", frukt);
-        CategorySimpler stenfrukt = new CategorySimpler("Stenfrukt", frukt);
-        CategorySimpler bar = new CategorySimpler("Bär", frukt);
+        Category fruktOchGront = new Category("Frukt och Grönt");
+        Category frukt = new Category("Frukt", fruktOchGront);
+        Category meloner = new Category("Meloner", frukt);
+        Category stenfrukt = new Category("Stenfrukt", frukt);
+        Category bar = new Category("Bär", frukt);
 
 
 
@@ -25,6 +25,7 @@ public class Main {
         Products products = new Products();
         products.addProduct(milk);
         products.addProduct(hallon);
+        products.getAllProducts().forEach(System.out::println);
 
      /*   //Lägg in i affären
         Store myStore = new Store();

@@ -1,7 +1,7 @@
 package se.iths.helena.labb2;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class represents the set of products in the store.
@@ -23,6 +23,28 @@ public class Products {
             products.add(product);
     }
 
+    public Set<Product> getAllProducts(){
+        return Collections.unmodifiableSet(products);
+    }
 
+    public Optional<Product> findProductById(long id){
+        return products.stream()
+                .filter(product -> product.id() == id)
+                .findAny();
+    }
+
+
+    public List<Product> getProducts(HashSet<Long> ids){
+        return products.stream()
+                .filter(product -> ids.contains(product.id()))
+                .collect(Collectors.toList());
+    }
+
+    //returns a list of products of the chosen category - not lower lever
+    public List<Product> findProductsByCategory(Category category){
+        return products.stream()
+                .filter(product -> product.category().equals(category))
+                .collect(Collectors.toList());
+    }
 
 }
