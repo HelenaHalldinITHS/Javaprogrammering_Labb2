@@ -2,20 +2,20 @@ package se.iths.helena.labb2;
 
 
 public class CategorySimpler {
-    private static final Category highestCategory = new Category("Categories");
+    private static final CategorySimpler highestCategory = new CategorySimpler("Categories");
     private final String name;
-    private Category higherCategory;
+    private CategorySimpler higherCategory;
 
     public CategorySimpler(String name) {
         this.name = name;
     }
 
-    public CategorySimpler(String name, Category higherCategory) {
+    public CategorySimpler(String name, CategorySimpler higherCategory) {
         this.name = name;
         this.higherCategory = higherCategory;
     }
 
-    public Category getHigherLevelCategory() {
+    public CategorySimpler getHigherLevelCategory() {
         if (higherCategory == null)
             return highestCategory;
         else
@@ -26,7 +26,7 @@ public class CategorySimpler {
         return name;
     }
 
-    public void setHigherLevelCategory(Category higherCategory) {
+    public void setHigherLevelCategory(CategorySimpler higherCategory) {
         this.higherCategory = higherCategory;
     }
 

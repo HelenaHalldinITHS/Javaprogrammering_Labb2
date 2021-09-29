@@ -17,6 +17,12 @@ public class Products {
          products = new HashSet<>();
     }
 
+    public void addProduct(Product product){
+        if (product == null)
+            throw new IllegalArgumentException("Product can't be null");
+            products.add(product);
+    }
+
 
 
 }

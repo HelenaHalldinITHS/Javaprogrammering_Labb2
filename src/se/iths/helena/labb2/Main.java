@@ -3,21 +3,16 @@ package se.iths.helena.labb2;
 public class Main {
     public static void main(String[] args) {
         //Skapa kategorier
-        Category brod = new Category("Bröd");
-        Category mejeri = new Category("Mejeri");
-        Category fisk = new Category("Fisk");
+        CategorySimpler brod = new CategorySimpler("Bröd");
+        CategorySimpler mejeri = new CategorySimpler("Mejeri");
+        CategorySimpler fisk = new CategorySimpler("Fisk");
 
+        CategorySimpler fruktOchGront = new CategorySimpler("Frukt och Grönt");
+        CategorySimpler frukt = new CategorySimpler("Frukt", fruktOchGront);
+        CategorySimpler meloner = new CategorySimpler("Meloner", frukt);
+        CategorySimpler stenfrukt = new CategorySimpler("Stenfrukt", frukt);
+        CategorySimpler bar = new CategorySimpler("Bär", frukt);
 
-        Category frukt = new Category("Frukt");
-        Category meloner = new Category("Meloner");
-        Category stenfrukt = new Category("Stenfrukt");
-        frukt.addSubcategory(meloner);
-        frukt.addSubcategory(stenfrukt);
-
-        Category bar = new Category("Bär");
-
-
-        frukt.addSubcategory(bar);
 
 
         //Skapa produkter
@@ -26,7 +21,12 @@ public class Main {
         Product lax = new Product("Lax", 79, fisk, "ICA", 99999);
         Product hallon = new Product("Hallon", 39, bar, "ICA", 333443);
 
-        //Lägg in i affären
+        //Create "order list";
+        Products products = new Products();
+        products.addProduct(milk);
+        products.addProduct(hallon);
+
+     /*   //Lägg in i affären
         Store myStore = new Store();
         myStore.addItems(milk,4);
         myStore.addItems(Yoggi, 10);
@@ -42,7 +42,7 @@ public class Main {
         System.out.println(myStore.itemsInStore(milk) + ", should be 7");
         myStore.clearInventory(milk);
         System.out.println(myStore.itemsInStore(milk));
-        System.out.println(myStore.itemsInStore(hallon));
+        System.out.println(myStore.itemsInStore(hallon));*/
     }
 
 
