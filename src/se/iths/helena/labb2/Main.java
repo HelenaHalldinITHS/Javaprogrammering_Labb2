@@ -6,13 +6,19 @@ public class Main {
         Category brod = new Category("Bröd");
         Category mejeri = new Category("Mejeri");
         Category fisk = new Category("Fisk");
+
+
         Category frukt = new Category("Frukt");
-        Category bar = new Category("Bär");
         Category meloner = new Category("Meloner");
         Category stenfrukt = new Category("Stenfrukt");
-        frukt.addSubcategory(bar);
         frukt.addSubcategory(meloner);
         frukt.addSubcategory(stenfrukt);
+
+        Category bar = new Category("Bär");
+
+
+        frukt.addSubcategory(bar);
+
 
         //Skapa produkter
         Product milk = new Product("Arla 2%", 20, mejeri, "Arla", 12134);

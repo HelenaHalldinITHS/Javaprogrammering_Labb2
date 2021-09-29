@@ -9,10 +9,11 @@ import java.util.List;
  */
 public class Category {
 
-    private static Category highestCategory = new Category("Categories");
-    private String name;
+    private static final Category highestCategory = new Category("Categories");
+
+    private final String name;
     private Category higherCategory;
-    private List<Category> subcategories = new ArrayList<>();
+    private final List<Category> subcategories = new ArrayList<>();
 
     public Category(String name) {
         this.name = name;
