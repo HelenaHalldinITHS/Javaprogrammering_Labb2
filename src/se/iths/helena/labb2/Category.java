@@ -2,7 +2,7 @@ package se.iths.helena.labb2;
 
 
 public class Category {
-    private static final Category highestCategory = new Category("Categories");
+    public static final Category highestCategory = new Category("Categories");
     private final String name;
     private Category higherCategory;
 

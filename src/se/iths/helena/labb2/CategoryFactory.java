@@ -1,7 +1,7 @@
 package se.iths.helena.labb2;
 
+import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.Scanner;
 
 //Class for modifying the Categories available in the store
@@ -18,7 +18,7 @@ public class CategoryFactory {
         while(true) {
             printMenu();
             int input = getIntInput();
-            if (input == 3)
+            if (input == 4)
                 break;
             runChoice(input);
         }
@@ -29,7 +29,15 @@ public class CategoryFactory {
         switch (input) {
             case 1 -> addCategory();
             case 2 -> printAllCategories();
+            case 3 -> printSubCategories();
         }
+    }
+
+    private static void printSubCategories() {
+        System.out.println("Ange den kategori vars sub kategorier du vill se: ");
+        String name = scanner.nextLine();
+        categories.get(name).ifPresent(category -> categories.getSubCategories(category).forEach(System.out::println));
+
     }
 
     private static void addCategory() {
@@ -80,6 +88,7 @@ public class CategoryFactory {
         System.out.println("Vad vill du göra?: ");
         System.out.println("1. Lägg till kategorier");
         System.out.println("2. Se en överblick över alla kategorier");
+        System.out.println("3. Se kategoris sub kategorier");
         System.out.println("3. Avsluta");
     }
 

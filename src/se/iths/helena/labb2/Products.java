@@ -33,7 +33,6 @@ public class Products {
                 .findAny();
     }
 
-
     public List<Product> getProducts(HashSet<Long> ids){
         return products.stream()
                 .filter(product -> ids.contains(product.id()))
