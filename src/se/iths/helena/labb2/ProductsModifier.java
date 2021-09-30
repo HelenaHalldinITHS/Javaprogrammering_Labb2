@@ -3,45 +3,32 @@ package se.iths.helena.labb2;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class ProductFactory {
-    private static Categories categories = new Categories();
-    private static Products products = new Products();
-    private static Scanner scanner = new Scanner(System.in);
+public class ProductsModifier {
+    private static Categories categories;
+    private static Products products;
+    private static final Scanner scanner = new Scanner(System.in);
 
 
-    public static void run() {
-        readFromFile();
+    public static void run(Categories categoryFromController, Products productsFromController) {
+        categories = categoryFromController;
+        products = productsFromController;
+
         while (true) {
             printMenu();
             int input = getIntInput();
-            if (input == 3)
+            if (input == 0)
                 break;
             runChoice(input);
         }
 
     }
 
-    private static void readFromFile() {
-        //läs in sparade kategorier och lägg i "categories"
-        categories.addCategory(new Category("Vin"));
-        categories.addCategory(new Category("Öl"));
-        categories.addCategory(new Category("Cider"));
-        categories.addCategory(new Category("Sprit"));
-        categories.addCategory(new Category("Rött vin", "Vin"));
-
-        //läs in sparade produkter
-        products.addProduct(new Product("Somersby hallon", 19, new Category("Vin"), "Somersby", 1));
-        products.addProduct(new Product("Somersby jordgubb", 19, new Category("Vin"), "Somersby", 2));
-        products.addProduct(new Product("Fat bastard", 89, new Category("Rött vin"), "someBrand", 3));
-        products.addProduct(new Product("Some red wine", 99, new Category("Rött vin"), "someBrand", 4));
-
-    }
-
     private static void printMenu() {
+        System.out.println();
         System.out.println("Vad vill du göra?: ");
         System.out.println("1. Lägg till nya produkter");
         System.out.println("2. Se en överblick över alla produkter");
-        System.out.println("4. Avsluta");
+        System.out.println("0. Gå bakåt");
     }
 
     private static int getIntInput() {
@@ -72,7 +59,14 @@ public class ProductFactory {
 
     private static long getIdFromUser() {
         System.out.println("Ange produktens id: ");
-        long id = Long.parseLong(scanner.nextLine());
+        long id;
+        do {
+            id = Long.parseLong(scanner.nextLine());
+            if (products.findProductById(id).isPresent())
+                System.out.println("Detta id är upptaget, försök igen: ");
+            else
+                break;
+        } while (true);
         return id;
     }
 
@@ -85,15 +79,15 @@ public class ProductFactory {
         System.out.println("Ange produktens Kategori: ");
         Category category;
         Optional<Category> optionalCategory;
-        while (true){
+
+        while (true) {
             optionalCategory = categories.get(scanner.nextLine());
 
             if (optionalCategory.isPresent()) {
                 category = optionalCategory.get();
                 break;
-            }
-
-            System.out.println("Kategorin du angett finns ej, försök igen: ");
+            } else
+                System.out.println("Kategorin du angett finns ej, försök igen: ");
         }
         return category;
     }
@@ -108,8 +102,8 @@ public class ProductFactory {
         return scanner.nextLine();
     }
 
-
     private static void printAllProducts() {
+        System.out.println();
         products.forEach(System.out::println);
     }
 

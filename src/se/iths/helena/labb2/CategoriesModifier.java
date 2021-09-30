@@ -5,13 +5,14 @@ import java.util.Locale;
 import java.util.Scanner;
 
 //Class for modifying the Categories available in the store
-public class CategoryFactory {
-    private static Categories categories = new Categories();
+public class CategoriesModifier {
     private static Scanner scanner = new Scanner(System.in);
+    private static Categories categories;
 
 
-    public static void run(){
-        readFromFile();
+    public static void run(Categories categoriesFromController){
+        categories = categoriesFromController;
+
         while(true) {
             printMenu();
             int input = getIntInput();
@@ -78,14 +79,6 @@ public class CategoryFactory {
         return Integer.parseInt(scanner.nextLine());
     }
 
-    private static void readFromFile() {
-        //läs in sparade kategorier och lägg i "categories"
-        categories.addCategory(new Category("Vin"));
-        categories.addCategory(new Category("Öl"));
-        categories.addCategory(new Category("Cider"));
-        categories.addCategory(new Category("Sprit"));
-        categories.addCategory(new Category("Rött vin", "Vin"));
-    }
 
     private static void printMenu(){
         System.out.println("Vad vill du göra?: ");
