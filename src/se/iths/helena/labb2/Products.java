@@ -64,7 +64,7 @@ public class Products implements Iterable<Product>{
     //returns a list of products of the chosen category - not lower lever
     public List<Product> findProductsByCategory(Category category){
         return products.stream()
-                .filter(product -> product.category().equals(category))
+                .filter(product -> product.category().getName().equals(category.getName()))
                 .collect(Collectors.toList());
     }
 

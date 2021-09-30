@@ -6,6 +6,7 @@ public class Controller {
     static Scanner scanner = new Scanner(System.in);
     private static Categories categories = new Categories();
     private static Products products = new Products();
+    private static Inventory inventory = new Inventory();
 
 
     public static void main(String[] args) {
@@ -26,8 +27,8 @@ public class Controller {
 
     private static void runChoice(int input) {
         switch (input) {
-            case 1 -> CategoriesModifier.run(categories);
-            case 2 -> ProductsModifier.run(categories, products);
+            case 1 -> CategoriesModifier.run();
+            case 2 -> ProductsModifier.run();
             case 3 -> Shop.run();
         }
     }
@@ -47,17 +48,41 @@ public class Controller {
 
 
     private static void readFromFile() {
+        //Kategorier:
+        Category wine = new Category("Vin");
+        Category cider = new Category("Cider");
+        Category beer = new Category("Öl");
+        Category boose = new Category("Sprit");
+        Category redWine = new Category("Rött vin", "Vin");
+
         //läs in sparade kategorier och lägg i "categories"
-        categories.addCategory(new Category("Vin"));
-        categories.addCategory(new Category("Öl"));
-        categories.addCategory(new Category("Cider"));
-        categories.addCategory(new Category("Sprit"));
-        categories.addCategory(new Category("Rött vin", "Vin"));
+        categories.addCategory(wine);
+        categories.addCategory(beer);
+        categories.addCategory(cider);
+        categories.addCategory(boose);
+        categories.addCategory(redWine);
 
         //läs in sparade produkter
-        products.addProduct(new Product("Somersby hallon", 19, new Category("Vin"), "Somersby", 1));
-        products.addProduct(new Product("Somersby jordgubb", 19, new Category("Vin"), "Somersby", 2));
-        products.addProduct(new Product("Fat bastard", 89, new Category("Rött vin"), "someBrand", 3));
-        products.addProduct(new Product("Some red wine", 99, new Category("Rött vin"), "someBrand", 4));
+        Product sbH = new Product("Somersby hallon", 19, cider, "Somersby", 1);
+        Product sbJ = new Product("Somersby jordgubb", 19, cider, "Somersby", 2);
+        Product FB = new Product("Fat bastard", 89, redWine, "someBrand", 3);
+        Product SRW = new Product("Some red wine", 99, redWine, "someBrand", 4);
+
+        products.addProduct(sbH);
+        products.addProduct(sbJ);
+        products.addProduct(FB);
+        products.addProduct(SRW);
+
+        //läs in inventory
+        inventory.addItems(sbH, 3);
+        inventory.addItems(sbJ, 4);
+        inventory.addItems(FB, 1);
+        inventory.addItems(SRW, 10);
+
+        //Inizalise classes
+        CategoriesModifier.initialise(categories);
+        ProductsModifier.initialise(categories, products);
+        Shop.initialise(categories, products, inventory);
+
     }
 }

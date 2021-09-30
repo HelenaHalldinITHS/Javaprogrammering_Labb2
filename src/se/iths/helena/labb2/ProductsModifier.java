@@ -8,11 +8,12 @@ public class ProductsModifier {
     private static Products products;
     private static final Scanner scanner = new Scanner(System.in);
 
-
-    public static void run(Categories categoryFromController, Products productsFromController) {
+    public static void initialise(Categories categoryFromController, Products productsFromController){
         categories = categoryFromController;
         products = productsFromController;
+    }
 
+    public static void run() {
         while (true) {
             printMenu();
             int input = getIntInput();
@@ -103,8 +104,7 @@ public class ProductsModifier {
     }
 
     private static void printAllProducts() {
-        System.out.println();
-        products.forEach(System.out::println);
+        products.forEach(Product::showInfo);
     }
 
 }

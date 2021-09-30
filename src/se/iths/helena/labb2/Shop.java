@@ -4,13 +4,20 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Shop {
-    private static Categories categories = new Categories();
-    private static Products products = new Products();
-    private static Inventory inventory = new Inventory();
+    private static Categories categories;
+    private static Products products;
+    private static Inventory inventory;
     private static final Scanner scanner = new Scanner(System.in);
+    private static ShoppingCartController cart;
+
+    public static void initialise(Categories categoryFromController, Products productsFromController, Inventory inventoryFromController){
+        categories = categoryFromController;
+        products = productsFromController;
+        inventory = inventoryFromController;
+    }
 
     public static void run() {
-        readFromFile();
+        cart = new ShoppingCartController(inventory);
 
         while (true) {
             printMainMenu();
@@ -19,15 +26,14 @@ public class Shop {
                 break;
             runMainMenuChoice(mainMenuChoice);
 
-            printContinueMenu();
-            int continueChoice = Integer.parseInt(scanner.nextLine());
-            if (continueChoice == 0)
+            if (mainMenuChoice == 4 || mainMenuChoice ==  5)
                 continue;
 
+            printContinueMenu();
+            if (Integer.parseInt(scanner.nextLine()) == 0)
+                continue;
             makeUserChooseAProduct();
         }
-
-
     }
 
     private static void makeUserChooseAProduct() {
@@ -39,13 +45,11 @@ public class Shop {
     }
 
     private static void showInfoOfProduct(Product product) {
-        System.out.println("Namn: " + product.name());
-        System.out.println("Id: " + product.id());
-        System.out.println("Kategori: " + product.category().getName());
-        System.out.println("Pris: " + product.price());
-        System.out.println("Märke: " + product.brand());
-        System.out.println("Antal i butiken: " + inventory.amountOfItemsInStore(product));
-        System.out.println();
+        product.showInfo();
+        int amount = inventory.amountOfItemsInInventory(product);
+        System.out.println("Antal i butiken: " + amount);
+
+        cart.shop(product);
     }
 
     private static void printContinueMenu() {
@@ -57,9 +61,11 @@ public class Shop {
 
     private static void runMainMenuChoice(int choice) {
         switch (choice) {
-            case 1 -> findProductsUsingCategories22();
+            case 1 -> findProductsUsingCategories();
             case 2 -> findProductsUsingFilter();
             case 3 -> findProductsThroughSearching();
+            case 4 -> cart.viewContent();
+            case 5 -> cart.makesPurchases();
         }
     }
 
@@ -99,7 +105,7 @@ public class Shop {
         categories.get(categoryOfChoice).ifPresentOrElse(Shop::printAllProductsInCategory, () -> System.out.println("Kategorin du skrev finns ej."));
     }
 
-    private static void findProductsUsingCategories22() {
+    private static void findProductsUsingCategories() {
         Category categoryOfChoice = Category.highestCategory;
         int choice = 2;
 
@@ -204,29 +210,9 @@ public class Shop {
         System.out.println("1. Hitta varor genom att navigera bland kategorier");
         System.out.println("2. Hitta varor genom att filtrera");
         System.out.println("3. Hitta varor genom att söka");
+        System.out.println("4. Visa innehåll i kundvagn");
+        System.out.println("5. Genomför ett köp");
         System.out.println("0. Gå bakåt");
-    }
-
-    private static void readFromFile() {
-        //läs in sparade kategorier och lägg i "categories"
-        categories.addCategory(new Category("Vin"));
-        categories.addCategory(new Category("Öl"));
-        categories.addCategory(new Category("Cider"));
-        categories.addCategory(new Category("Sprit"));
-        categories.addCategory(new Category("Rött vin", "Vin"));
-
-        //läs in sparade produkter
-        products.addProduct(new Product("Somersby hallon", 19, new Category("Cider"), "Somersby", 1));
-        products.addProduct(new Product("Somersby jordgubb", 19, new Category("Cider"), "Somersby", 2));
-        products.addProduct(new Product("Fat bastard", 89, new Category("Rött vin", "Vin"), "someBrand", 3));
-        products.addProduct(new Product("Some red wine", 99, new Category("Rött vin", "Vin"), "someBrand", 4));
-
-        //läs in inventory
-        inventory.addItems(new Product("Somersby hallon", 19, new Category("Cider"), "Somersby", 1), 3);
-        inventory.addItems(new Product("Somersby jordgubb", 19, new Category("Cider"), "Somersby", 2), 4);
-        inventory.addItems(new Product("Fat bastard", 89, new Category("Rött vin", "Vin"), "someBrand", 3), 1);
-        inventory.addItems(new Product("Some red wine", 99, new Category("Rött vin", "Vin"), "someBrand", 4), 10);
-
     }
 
 

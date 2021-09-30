@@ -6,17 +6,18 @@ import java.util.Scanner;
 
 //Class for modifying the Categories available in the store
 public class CategoriesModifier {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
     private static Categories categories;
 
+    public static void initialise(Categories categoryFromController){
+        categories = categoryFromController;
+    }
 
-    public static void run(Categories categoriesFromController){
-        categories = categoriesFromController;
-
+    public static void run(){
         while(true) {
             printMenu();
             int input = getIntInput();
-            if (input == 4)
+            if (input == 0)
                 break;
             runChoice(input);
         }
@@ -32,10 +33,11 @@ public class CategoriesModifier {
     }
 
     private static void printSubCategories() {
+        System.out.println();
         System.out.println("Ange den kategori vars sub kategorier du vill se: ");
         String name = scanner.nextLine();
-        categories.get(name).ifPresent(category -> categories.getSubCategories(category).forEach(System.out::println));
-
+        categories.get(name).ifPresent(category -> categories.getSubCategories(category)
+                .forEach( category1 -> System.out.println(category1.getName())));
     }
 
     private static void addCategory() {
@@ -45,12 +47,6 @@ public class CategoriesModifier {
         while (!inputCanBeProcessed(name, scanner.nextLine())) {
             System.out.println("Försök igen, jag förstå ej: ");
         }
-
-        saveToFile();
-    }
-
-    private static void saveToFile() {
-        //spara ny kategori
     }
 
     private static boolean inputCanBeProcessed(String name, String input) {
@@ -65,12 +61,14 @@ public class CategoriesModifier {
     }
 
     private static void printQuestionAboutSubCategory() {
+        System.out.println();
         System.out.println("Om kategorin ska vara en sub kategori," +
                 " ange då namnet på den önskade super kategorin," +
                 " annars skriv \"nej\": ");
     }
 
     private static String getNameOfNewCategory() {
+        System.out.println();
         System.out.println("Ange namnet på önskad kategori: ");
         return scanner.nextLine();
     }
@@ -81,14 +79,16 @@ public class CategoriesModifier {
 
 
     private static void printMenu(){
+        System.out.println();
         System.out.println("Vad vill du göra?: ");
         System.out.println("1. Lägg till kategorier");
         System.out.println("2. Se en överblick över alla kategorier");
         System.out.println("3. Se kategoris sub kategorier");
-        System.out.println("4. Avsluta");
+        System.out.println("0. Gå bakåt");
     }
 
     public static void printAllCategories(){
+        System.out.println();
         categories.forEach(category -> System.out.println(category.getName()));
     }
 
