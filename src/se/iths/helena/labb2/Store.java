@@ -4,41 +4,68 @@ package se.iths.helena.labb2;
 import java.util.Scanner;
 
 public class Store {
-    private static Categories categories = new Categories();
-    private static Products products = new Products();
-    private static Inventory inventory = new Inventory();
-    private static Scanner scanner = new Scanner(System.in);
+    private static Categories categories;
+    private static Products products;
+    private static Inventory inventory;
+    private static final Scanner scanner = new Scanner(System.in);
 
 
     public static void run(){
         readFromFile();
         printWelcomeMessage();
 
-        Category categoryOfChoice = makeUserChooseASubCategory(Category.highestCategory);
-
-        System.out.println("Välj ett av följande: ");
-        System.out.println("1. Visa alla varor inom denna kategori.");
-        System.out.println("2. Visa denna kategorins sub kategorier.");
-        int choice = Integer.parseInt(scanner.nextLine());
-
-        switch (choice) {
-            case 1 -> printAllProductsInCategory(categoryOfChoice);
-            case 2 -> makeUserChooseASubCategory(categoryOfChoice);
+        switch (Integer.parseInt(scanner.nextLine())) {
+            case 1 -> runNavigateWithCategories();
+            case 2 -> runNavigateWithSearchOrFilter();
         }
     }
 
-    private static void printAllProductsInCategory(Category categoryOfChoice) {
+    private static void runNavigateWithSearchOrFilter() {
 
-//        //Skriv ut produkter för vald kategoris sub kategorier
-//        List<Category> cList = categories.getSubCategories(categoryOfChoice);
-//        cList.add(categoryOfChoice);
-//
-//        List<Product> pList;
-//
-//        for (Category category : cList) {
-//            pList = products.findProductsByCategory(category);
-//            pList.forEach(product -> System.out.println(product.name()));
-//        }
+    }
+
+    private static void runNavigateWithCategories() {
+        Category categoryOfChoice = Category.highestCategory;
+        int choice = 2;
+
+        while (true){
+            if (choice == 1){
+                printAllProductsInCategory(categoryOfChoice);
+                makeUserChooseAProduct();
+                break;
+            }
+            if (choice == 2)
+                categoryOfChoice = makeUserChooseASubCategory(categoryOfChoice);
+
+            choice = getChoice();
+        }
+    }
+
+    private static void makeUserChooseAProduct() {
+        System.out.println("Välj en av följande produkter genom att skriva dess namn: ");
+        String input = scanner.nextLine();
+        System.out.println();
+        products.getProductByName(input).ifPresent(Store::showInfoOfProduct);
+    }
+
+    private static void showInfoOfProduct(Product product) {
+        System.out.println("Namn: " + product.name());
+        System.out.println("Id: " + product.id());
+        System.out.println("Kategori: " + product.category().getName());
+        System.out.println("Pris: " + product.price());
+        System.out.println("Märke: " + product.brand());
+        System.out.println("Antal i butiken: " + inventory.amountOfItemsInStore(product));
+        System.out.println();
+    }
+
+    private static int getChoice() {
+        System.out.println("Välj ett av följande: ");
+        System.out.println("1. Visa alla varor inom denna kategori.");
+        System.out.println("2. Visa denna kategorins sub kategorier.");
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    private static void printAllProductsInCategory(Category categoryOfChoice) {
         categories.getSubCategoriesInclusiveThisCategory(categoryOfChoice)
                 .forEach(category -> products.findProductsByCategory(category)
                         .forEach(product -> System.out.println(product.name())));
@@ -86,8 +113,9 @@ public class Store {
     }
 
     private static void printWelcomeMessage() {
-        System.out.println("Välkommen!");
-        System.out.println("Hitta varor genom att navigera bland kategorier");
+        System.out.println("Välkommen, välj något av följande: ");
+        System.out.println("1. Hitta varor genom att navigera bland kategorier");
+        System.out.println("2. Hitta varor genom att söka eller filtrera");
     }
 
 

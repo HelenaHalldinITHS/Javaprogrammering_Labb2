@@ -23,7 +23,7 @@ public class Controller {
         switch (input) {
             case 1 -> CategoryFactory.run();
             case 2 -> ProductFactory.run();
-            case 3 -> Store.run();
+            case 3 -> Shop.run();
         }
     }
 

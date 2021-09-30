@@ -28,6 +28,7 @@ public class Categories implements Iterable<Category> {
                 .filter(category -> category.getName().equals(name))
                 .findAny();
     }
+
     public Category getFromString(String name) {
         Optional<Category> optionalCategory = categories.stream()
                 .filter(category -> category.getName().equals(name))

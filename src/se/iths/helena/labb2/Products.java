@@ -27,6 +27,28 @@ public class Products implements Iterable<Product>{
         return Collections.unmodifiableSet(products);
     }
 
+    public List<Product> findProductsInPriceRange(long min, long max){
+        return products.stream().filter(product -> product.price() >= min)
+                .filter(product -> product.price() <= max)
+                .collect(Collectors.toList());
+    }
+
+    public List<Product> findProductsByBrand(String brandSearch){
+        return products.stream()
+                .filter(product -> product.brand().toLowerCase(Locale.ROOT).equals(brandSearch.toLowerCase(Locale.ROOT)))
+                .collect(Collectors.toList());
+    }
+
+    public Optional<Product> getProductByName(String name){
+        return products.stream()
+                .filter(product -> product.name().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT))).findAny();
+    }
+
+    public List<Product> getProductsByPartOfName(String searchWord){
+        return products.stream().filter(product -> product.name()
+                .toLowerCase(Locale.ROOT).contains(searchWord.toLowerCase(Locale.ROOT))).collect(Collectors.toList());
+    }
+
     public Optional<Product> findProductById(long id){
         return products.stream()
                 .filter(product -> product.id() == id)
