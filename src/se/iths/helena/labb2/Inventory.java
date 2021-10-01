@@ -47,7 +47,7 @@ public class Inventory {
         System.out.println();
         inventory.forEach((product, integer) -> System.out.println("Namn: " + product.name()
                 + ", Antal: " + integer + ", Totalt pris: " + product.price() * integer));
-        System.out.println("TOTALT BELOPP: " + totalPriceOfInventory());
+        System.out.println("Belopp utan rabatt: " + totalPriceOfInventory());
     }
 
     public int totalPriceOfInventory() {
