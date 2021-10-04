@@ -8,7 +8,7 @@ public class Shop {
     private static Products products;
     private static Inventory inventory;
     private static final Scanner scanner = new Scanner(System.in);
-    private static ShoppingCartController cart;
+    private static ShoppingCart cart;
 
     public static void initialise(Categories categoryFromController, Products productsFromController, Inventory inventoryFromController){
         categories = categoryFromController;
@@ -17,7 +17,7 @@ public class Shop {
     }
 
     public static void run() {
-        cart = new ShoppingCartController(inventory);
+        cart = new ShoppingCart(inventory);
 
         while (true) {
             printMainMenu();
@@ -49,7 +49,7 @@ public class Shop {
         int amount = inventory.amountOfItemsInInventory(product);
         System.out.println("Antal i butiken: " + amount);
 
-        cart.shop(product);
+        cart.askUserIfProductShouldBeAdded(product);
     }
 
     private static void printContinueMenu() {
@@ -65,7 +65,7 @@ public class Shop {
             case 2 -> findProductsUsingFilter();
             case 3 -> findProductsThroughSearching();
             case 4 -> cart.viewContent();
-            case 5 -> cart.makesPurchases();
+            case 5 -> cart.makePurchase();
         }
     }
 

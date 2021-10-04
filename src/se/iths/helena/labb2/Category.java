@@ -31,6 +31,7 @@ public class Category {
     public String getName() {
         return name;
     }
+
     public Category get(String nameOfCategory) {
         return new Category(nameOfCategory);
     }

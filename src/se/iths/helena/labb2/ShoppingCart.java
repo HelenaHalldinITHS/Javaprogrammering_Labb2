@@ -3,13 +3,13 @@ package se.iths.helena.labb2;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class ShoppingCartController {
+public class ShoppingCart {
     private static final Scanner scanner = new Scanner(System.in);
     private Inventory shoppingCart;
     private Inventory storeInventory;
     private Discountable price = noDiscount.getInstance();
 
-    public ShoppingCartController(Inventory storeInventory){
+    public ShoppingCart(Inventory storeInventory){
         this.storeInventory = storeInventory;
         shoppingCart = new Inventory();
     }
@@ -18,7 +18,7 @@ public class ShoppingCartController {
         shoppingCart.showContent();
     }
 
-    public void shop(Product product){
+    public void askUserIfProductShouldBeAdded(Product product){
         System.out.println();
         System.out.println("VILL DU LÄGGA TILL DENNA VARA I DIN VARUKORG?");
         System.out.println("Skriv då JA");
@@ -66,7 +66,7 @@ public class ShoppingCartController {
         storeInventory.removeItemsOfProduct(product, amount);
     }
 
-    public void makesPurchases(){
+    public void makePurchase(){
         System.out.println();
         System.out.println("GRATTIS! DU HAR GENOMFÖRT ETT KÖP");
         System.out.println("DITT KVITTO: ");
@@ -74,6 +74,11 @@ public class ShoppingCartController {
         double discountedPrice = price.getDiscountedPrice(shoppingCart.totalPriceOfInventory());
         System.out.printf("Pris med rabatt: %.2f ", discountedPrice);
         System.out.println();
+        clearCart();
+    }
+
+    private void clearCart() {
+        shoppingCart.clearInventory();
     }
 
 }

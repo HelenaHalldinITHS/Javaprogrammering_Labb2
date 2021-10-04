@@ -55,4 +55,8 @@ public class Inventory {
         inventory.forEach((product, integer) -> sum.addAndGet(product.price() * integer));
         return sum.get();
     }
+
+    public void clearInventory(){
+        inventory.clear();
+    }
 }
