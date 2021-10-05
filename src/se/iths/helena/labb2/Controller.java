@@ -1,5 +1,6 @@
 package se.iths.helena.labb2;
 
+import java.util.Map;
 import java.util.Scanner;
 
 public class Controller {
@@ -10,7 +11,7 @@ public class Controller {
 
 
     public static void main(String[] args) {
-        readFromFile();
+        readFromCsvFile();
         while (true) {
             printMenu();
             int input = getInput();
@@ -84,5 +85,22 @@ public class Controller {
         ProductsModifier.initialise(categories, products);
         Shop.initialise(categories, products, inventory);
 
+    }
+
+    private static void readFromCsvFile(){
+        CsvReader csvR = new CsvReader();
+
+        //Categories:
+        categories.initialiseCategories(csvR.readCategories());
+
+        //Products:
+        products.initialiseProducts(csvR.readProducts(categories));
+
+        //Inventory
+        inventory.initialiseInventory(csvR.readInventory(products));
+
+        CategoriesModifier.initialise(categories);
+        ProductsModifier.initialise(categories, products);
+        Shop.initialise(categories, products, inventory);
     }
 }

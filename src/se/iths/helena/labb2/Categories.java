@@ -10,11 +10,18 @@ public class Categories implements Iterable<Category> {
         categories = new HashSet<>();
     }
 
+    public int size(){
+        return categories.size();
+    }
     public void addCategory(Category category) {
         if (category == null)
             throw new IllegalArgumentException();
 
         categories.add(category);
+    }
+
+    public void initialiseCategories(Set<Category> categorySet){
+        categories = categorySet;
     }
 
     public boolean contains(Category category) {

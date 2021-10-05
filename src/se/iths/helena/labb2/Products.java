@@ -22,6 +22,9 @@ public class Products implements Iterable<Product>{
             throw new IllegalArgumentException("Product can't be null");
             products.add(product);
     }
+    public void initialiseProducts(Set<Product> productSet){
+        products = productSet;
+    }
 
     public Set<Product> getAllProducts(){
         return Collections.unmodifiableSet(products);

@@ -51,11 +51,12 @@ public class ProductsModifier {
         long id = getIdFromUser();
 
         products.addProduct(new Product(name, price, category, brand, id));
-        saveToFile();
+        save();
     }
 
-    private static void saveToFile() {
-        //Spara ändringar
+    private static void save() {
+        CsvWriter csvWriter = new CsvWriter();
+        csvWriter.saveProducts(products);
     }
 
     private static long getIdFromUser() {

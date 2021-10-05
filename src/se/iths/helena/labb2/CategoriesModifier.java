@@ -47,6 +47,13 @@ public class CategoriesModifier {
         while (!inputCanBeProcessed(name, scanner.nextLine())) {
             System.out.println("Försök igen, jag förstå ej: ");
         }
+
+        save();
+    }
+
+    private static void save() {
+        CsvWriter csvWriter = new CsvWriter();
+        csvWriter.saveCategories(categories);
     }
 
     private static boolean inputCanBeProcessed(String name, String input) {
