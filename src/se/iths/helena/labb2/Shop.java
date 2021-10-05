@@ -6,26 +6,23 @@ import java.util.Scanner;
 public class Shop {
     private static Categories categories;
     private static Products products;
-    private static Inventory inventory;
     private static final Scanner scanner = new Scanner(System.in);
     private static ShoppingCart cart;
 
-    public static void initialise(Categories categoryFromController, Products productsFromController, Inventory inventoryFromController){
+    public static void initialise(Categories categoryFromController, Products productsFromController){
         categories = categoryFromController;
         products = productsFromController;
-        inventory = inventoryFromController;
+        cart = new ShoppingCart(products);
     }
 
     public static void run() {
-        cart = new ShoppingCart(inventory);
-
         while (true) {
             printMainMenu();
             int mainMenuChoice = getMainMenuChoice();
             if (mainMenuChoice == 0)
                 break;
-            runMainMenuChoice(mainMenuChoice);
 
+            runMainMenuChoice(mainMenuChoice);
             if (mainMenuChoice == 4 || mainMenuChoice ==  5)
                 continue;
 
@@ -46,9 +43,6 @@ public class Shop {
 
     private static void showInfoOfProduct(Product product) {
         product.showInfo();
-        int amount = inventory.amountOfItemsInInventory(product);
-        System.out.println("Antal i butiken: " + amount);
-
         cart.askUserIfProductShouldBeAdded(product);
     }
 

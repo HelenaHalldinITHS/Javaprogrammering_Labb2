@@ -36,9 +36,6 @@ public class Category {
         return new Category(nameOfCategory);
     }
 
-    public void setHigherLevelCategory(Category higherCategory) {
-        this.higherCategory = higherCategory;
-    }
 
     @Override
     public boolean equals(Object o) {

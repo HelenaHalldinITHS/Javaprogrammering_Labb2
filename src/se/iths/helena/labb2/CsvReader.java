@@ -52,13 +52,14 @@ public class CsvReader {
         return productSet;
     }
 
-    private static Product createProduct(String line, Categories categories){
+    private static Product createProduct(String line, Categories categories) {
         String[] arr = pattern.split(line);
 
         return new Product(arr[0], Integer.parseInt(arr[1]), categories.getFromString(arr[2]),
-                arr[3], Long.parseLong(arr[4]));
+                arr[3], Long.parseLong(arr[4]), Integer.parseInt(arr[5]));
     }
-
+}
+    /*
     public Map<Product, Integer> readInventory(Products products) {
         String homePath = System.getProperty("user.home");
         Path csvPath = Path.of(homePath, "Labb2", "inventory.csv");
@@ -86,3 +87,5 @@ public class CsvReader {
     }
 }
 record ProductStock (Product product, int amount){};
+
+     */

@@ -49,10 +49,12 @@ public class ProductsModifier {
         Category category = getCategoryFromUser();
         String brand = getBrandFromUser();
         long id = getIdFromUser();
+        int amount = getAmountFromUser();
 
-        products.addProduct(new Product(name, price, category, brand, id));
+        products.addProduct(new Product(name, price, category, brand, id, amount));
         save();
     }
+
 
     private static void save() {
         CsvWriter csvWriter = new CsvWriter();
@@ -108,4 +110,8 @@ public class ProductsModifier {
         products.forEach(Product::showInfo);
     }
 
+    private static int getAmountFromUser() {
+        System.out.println("Ange antal i butiken: ");
+        return Integer.parseInt(scanner.nextLine());
+    }
 }

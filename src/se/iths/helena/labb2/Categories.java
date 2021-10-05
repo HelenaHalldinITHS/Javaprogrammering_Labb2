@@ -10,13 +10,9 @@ public class Categories implements Iterable<Category> {
         categories = new HashSet<>();
     }
 
-    public int size(){
-        return categories.size();
-    }
     public void addCategory(Category category) {
         if (category == null)
             throw new IllegalArgumentException();
-
         categories.add(category);
     }
 
@@ -43,11 +39,6 @@ public class Categories implements Iterable<Category> {
         if (optionalCategory.isEmpty())
             throw new IllegalArgumentException();
         return optionalCategory.get();
-    }
-
-    public List<Category> getAllCategories() {
-        //returnera en variant som inte får modifieras!!
-        return List.copyOf(categories);
     }
 
     public List<Category> getSubCategories(Category highestCategory) {

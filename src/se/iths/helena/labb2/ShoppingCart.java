@@ -1,26 +1,31 @@
 package se.iths.helena.labb2;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ShoppingCart {
     private static final Scanner scanner = new Scanner(System.in);
-    private Inventory shoppingCart;
-    private Inventory storeInventory;
+    private Map<Product,Integer> shoppingCart;
     private final List<Discountable> discounts = new ArrayList<>();
+    private final Products products;
 
-    public ShoppingCart(Inventory storeInventory) {
-        this.storeInventory = storeInventory;
-        shoppingCart = new Inventory();
-
+    public ShoppingCart(Products products) {
+        this.products = products;
+        shoppingCart = new HashMap<>();
         discounts.addAll(List.of(new firstLevelDiscount(), new secondLevelDiscount(), new thirdLevelDiscount()));
     }
 
     public void viewContent() {
         System.out.println();
-        shoppingCart.showContent();
+        shoppingCart.forEach((product, integer) -> System.out.println("Namn: " + product.name()
+                + ", Antal: " + integer + ", Totalt pris: " + product.price() * integer));
+        System.out.println("Belopp utan rabatt: " + totalPrice());
+    }
+
+    public double totalPrice() {
+        AtomicInteger sum = new AtomicInteger();
+        shoppingCart.forEach((product, integer) -> sum.addAndGet(product.price() * integer));
+        return sum.doubleValue();
     }
 
     public void askUserIfProductShouldBeAdded(Product product) {
@@ -44,7 +49,7 @@ public class ShoppingCart {
         int amount;
         do {
             amount = Integer.parseInt(scanner.nextLine());
-            if (amount > storeInventory.amountOfItemsInInventory(product))
+            if (amount > product.amountInStore())
                 System.out.println("Det finns inte tillräckligt med varor i butiken, ange en lägre siffra");
             else
                 break;
@@ -54,8 +59,11 @@ public class ShoppingCart {
     }
 
     private void moveProductFromStoreToCart(int amount, Product product) {
-        shoppingCart.addItems(product, amount);
-        storeInventory.removeItemsOfProduct(product, amount);
+        if (shoppingCart.containsKey(product))
+            shoppingCart.put(product, shoppingCart.get(product)+amount);
+        else
+            shoppingCart.put(product, amount);
+        product.removeFromStore(amount);
     }
 
     public void makePurchase() {
@@ -64,30 +72,29 @@ public class ShoppingCart {
         printReceipt();
         updateInventory();
         clearCart();
-
     }
 
     private void updateInventory() {
         CsvWriter csvWriter = new CsvWriter();
-        csvWriter.saveInventory(storeInventory);
+        csvWriter.saveProducts(products);
     }
 
     private void printReceipt() {
         System.out.println("DITT KVITTO: ");
-        shoppingCart.showContent();
+        viewContent();
         System.out.printf("Pris med rabatt: %.2f ", getDiscountedPrice());
         System.out.println();
     }
 
     private double getDiscountedPrice() {
-        double price = shoppingCart.totalPriceOfInventory();
+        double price = totalPrice();
         for (Discountable discount : discounts)
             price = discount.getDiscountedPrice(price);
         return price;
     }
 
     private void clearCart() {
-        shoppingCart.clearInventory();
+        shoppingCart = new HashMap<>();
     }
 
 }

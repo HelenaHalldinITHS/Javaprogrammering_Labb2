@@ -57,9 +57,10 @@ public class CategoriesModifier {
     }
 
     private static boolean inputCanBeProcessed(String name, String input) {
-        if (input.toLowerCase(Locale.ROOT).equals("nej"))
+        if (input.toLowerCase(Locale.ROOT).equals("nej")) {
+            categories.addCategory(new Category(name));
             return true;
-
+        }
         if (categories.contains(new Category(input))) {
             categories.get(input).ifPresent(category -> categories.addCategory(new Category(name, category)));
             return true;
