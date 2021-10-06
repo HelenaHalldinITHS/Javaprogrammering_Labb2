@@ -1,19 +1,23 @@
 package se.iths.helena.labb2;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Controller {
     static Scanner scanner = new Scanner(System.in);
-    private static Categories categories = new Categories();
-    private static Products products = new Products();
-
+    private static final int END_APPLICATION = 0;
+    private static final Categories categories = new Categories();
+    private static final Products products = new Products();
+    private static final List<Integer> validChoices = List.of(END_APPLICATION,1,2,3);
 
     public static void main(String[] args) {
         readFromCsvFile();
+        initialise();
+
         while (true) {
             printMenu();
             int input = getInput();
-            if (input == 0)
+            if (input == END_APPLICATION)
                 break;
             runChoice(input);
         }
@@ -28,7 +32,17 @@ public class Controller {
     }
 
     private static int getInput() {
-        return Integer.parseInt(scanner.nextLine());
+        int inputAsInt;
+        while(true) {
+            try {
+                inputAsInt = Integer.parseInt(scanner.nextLine());
+                if (!validChoices.contains(inputAsInt))
+                    throw new IllegalArgumentException();
+                return inputAsInt;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Val ej giltigt, försök igen genom att skriva den siffra som motsvarar ditt val.");
+            }
+        }
     }
 
     public static void printMenu() {
@@ -37,19 +51,16 @@ public class Controller {
         System.out.println("1. Hantera kategorier");
         System.out.println("2. Hantera produkter");
         System.out.println("3. Handla");
-        System.out.println("0. Avsluta");
+        System.out.println(END_APPLICATION + ". Avsluta");
     }
-
 
     private static void readFromCsvFile(){
         CsvReader csvR = new CsvReader();
-
-        //Categories:
         categories.initialiseCategories(csvR.readCategories());
-
-        //Products:
         products.initialiseProducts(csvR.readProducts(categories));
+    }
 
+    private static void initialise() {
         CategoriesModifier.initialise(categories);
         ProductsModifier.initialise(categories, products);
         Shop.initialise(categories, products);
