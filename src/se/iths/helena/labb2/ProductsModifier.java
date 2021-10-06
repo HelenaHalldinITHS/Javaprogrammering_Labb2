@@ -1,14 +1,14 @@
 package se.iths.helena.labb2;
 
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.List;
 
 public class ProductsModifier {
     private static Categories categories;
     private static Products products;
-    private static final Scanner scanner = new Scanner(System.in);
+    private static final int RETURN = 0;
+    private static final List<Integer> VALID_CHOICES = List.of(RETURN, 1, 2);
 
-    public static void initialise(Categories categoryFromController, Products productsFromController){
+    public static void initialise(Categories categoryFromController, Products productsFromController) {
         categories = categoryFromController;
         products = productsFromController;
     }
@@ -16,8 +16,8 @@ public class ProductsModifier {
     public static void run() {
         while (true) {
             printMenu();
-            int input = getIntInput();
-            if (input == 0)
+            int input = getInput();
+            if (input == RETURN)
                 break;
             runChoice(input);
         }
@@ -32,8 +32,8 @@ public class ProductsModifier {
         System.out.println("0. Gå bakåt");
     }
 
-    private static int getIntInput() {
-        return Integer.parseInt(scanner.nextLine());
+    private static int getInput() {
+        return InputHandler.getInput(VALID_CHOICES);
     }
 
     private static void runChoice(int input) {
@@ -44,17 +44,16 @@ public class ProductsModifier {
     }
 
     private static void addProduct() {
-        String name = getNameFromUser();
-        int price = getPriceFromUser();
+        String name = InputHandler.getInput("Ange produktens namn: ");
+        int price = InputHandler.getIntegerInput("Ange produktens pris: ");
         Category category = getCategoryFromUser();
-        String brand = getBrandFromUser();
+        String brand = InputHandler.getInput("Ange märke: ");
         long id = getIdFromUser();
-        int amount = getAmountFromUser();
+        int amount = InputHandler.getIntegerInput("Ange antal i butiken: ");
 
         products.addProduct(new Product(name, price, category, brand, id, amount));
         save();
     }
-
 
     private static void save() {
         CsvWriter csvWriter = new CsvWriter();
@@ -62,56 +61,40 @@ public class ProductsModifier {
     }
 
     private static long getIdFromUser() {
-        System.out.println("Ange produktens id: ");
         long id;
-        do {
-            id = Long.parseLong(scanner.nextLine());
-            if (products.findProductById(id).isPresent())
-                System.out.println("Detta id är upptaget, försök igen: ");
-            else
-                break;
-        } while (true);
-        return id;
+        System.out.println("Ange produktens id: ");
+        while (true) {
+            try {
+                id = Long.parseLong(InputHandler.getInput());
+                if (products.findProductById(id).isPresent())
+                    throw new IllegalArgumentException();
+                return id;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Det id du anger är inte giltigt, försök igen:");
+                printTakenIds();
+            }
+        }
     }
 
-    private static String getBrandFromUser() {
-        System.out.println("Ange märke: ");
-        return scanner.nextLine();
+    private static void printTakenIds() {
+        System.out.print("Följande id är upptagna: ");
+        products.getIds().forEach(l -> System.out.print(l + " "));
+        System.out.println();
     }
 
     private static Category getCategoryFromUser() {
         System.out.println("Ange produktens Kategori: ");
-        Category category;
-        Optional<Category> optionalCategory;
-
         while (true) {
-            optionalCategory = categories.get(scanner.nextLine());
-
-            if (optionalCategory.isPresent()) {
-                category = optionalCategory.get();
-                break;
-            } else
+            try {
+                return categories.get(InputHandler.getInput()).orElseThrow();
+            } catch (Exception e) {
                 System.out.println("Kategorin du angett finns ej, försök igen: ");
+            }
         }
-        return category;
-    }
-
-    private static int getPriceFromUser() {
-        System.out.println("Ange produktens pris: ");
-        return Integer.parseInt(scanner.nextLine());
-    }
-
-    private static String getNameFromUser() {
-        System.out.println("Ange produktens namn: ");
-        return scanner.nextLine();
     }
 
     private static void printAllProducts() {
         products.forEach(Product::showInfo);
     }
 
-    private static int getAmountFromUser() {
-        System.out.println("Ange antal i butiken: ");
-        return Integer.parseInt(scanner.nextLine());
-    }
 }

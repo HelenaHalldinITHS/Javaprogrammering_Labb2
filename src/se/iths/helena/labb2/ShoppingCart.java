@@ -63,7 +63,7 @@ public class ShoppingCart {
             shoppingCart.put(product, shoppingCart.get(product)+amount);
         else
             shoppingCart.put(product, amount);
-        product.removeFromStore(amount);
+        product.decreaseInventory(amount);
     }
 
     public void makePurchase() {

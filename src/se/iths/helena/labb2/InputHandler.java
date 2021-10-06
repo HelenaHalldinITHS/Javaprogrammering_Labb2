@@ -20,6 +20,18 @@ public class InputHandler {
         }
     }
 
+    public static int getIntegerInput(String text) {
+        System.out.println(text);
+        while (true) {
+            try {
+                return Integer.parseInt(scanner.nextLine());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Input ej giltig, försök igen: ");
+            }
+        }
+    }
+
+
     public static String getInput(String text) {
         System.out.println(text);
         return scanner.nextLine();
