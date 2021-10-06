@@ -1,14 +1,12 @@
 package se.iths.helena.labb2;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class Controller {
-    static Scanner scanner = new Scanner(System.in);
     private static final int END_APPLICATION = 0;
     private static final Categories categories = new Categories();
     private static final Products products = new Products();
-    private static final List<Integer> validChoices = List.of(END_APPLICATION,1,2,3);
+    private static final List<Integer> VALID_CHOICES = List.of(END_APPLICATION,1,2,3);
 
     public static void main(String[] args) {
         readFromCsvFile();
@@ -31,18 +29,8 @@ public class Controller {
         }
     }
 
-    private static int getInput() {
-        int inputAsInt;
-        while(true) {
-            try {
-                inputAsInt = Integer.parseInt(scanner.nextLine());
-                if (!validChoices.contains(inputAsInt))
-                    throw new IllegalArgumentException();
-                return inputAsInt;
-            } catch (IllegalArgumentException e) {
-                System.out.println("Val ej giltigt, försök igen genom att skriva den siffra som motsvarar ditt val.");
-            }
-        }
+    private static int getInput () {
+      return InputHandler.getInput(VALID_CHOICES);
     }
 
     public static void printMenu() {

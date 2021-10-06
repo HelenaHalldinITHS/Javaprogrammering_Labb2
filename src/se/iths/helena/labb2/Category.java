@@ -4,7 +4,7 @@ package se.iths.helena.labb2;
 public class Category {
     public static final Category highestCategory = new Category("Categories");
     private final String name;
-    private Category higherCategory;
+    private final Category higherCategory;
 
     public Category(String name) {
         this.name = name;
@@ -14,11 +14,6 @@ public class Category {
     public Category(String name, Category higherCategory) {
         this.name = name;
         this.higherCategory = higherCategory;
-    }
-
-    public Category(String name, String higherCategory) {
-        this.name = name;
-        this.higherCategory = get(higherCategory);
     }
 
     public Category getHigherLevelCategory() {
@@ -32,10 +27,12 @@ public class Category {
         return name;
     }
 
+    /*
     public Category get(String nameOfCategory) {
         return new Category(nameOfCategory);
     }
 
+     */
 
     @Override
     public boolean equals(Object o) {
