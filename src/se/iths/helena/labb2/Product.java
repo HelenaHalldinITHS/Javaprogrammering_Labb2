@@ -29,7 +29,7 @@ public final class Product {
         System.out.println("Antal i butik: " + this.amountInStore());
     }
 
-    public void decreaseInventory(int amount){
+    public void decreaseInventory(int amount) {
         this.amountInStore = this.amountInStore - amount;
     }
 

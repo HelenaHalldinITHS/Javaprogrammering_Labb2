@@ -26,7 +26,7 @@ public class InputHandler {
     }
 
     public static int getIntegerInput(int limitLower, int limitHigher) {
-        return getIntegerInput(limitLower,limitHigher,"Input ej giltig, försök igen: ");
+        return getIntegerInput(limitLower, limitHigher, "Input ej giltig, försök igen: ");
     }
 
     public static int getIntegerInput(int limitLower, int limitHigher, String errorMessage) {

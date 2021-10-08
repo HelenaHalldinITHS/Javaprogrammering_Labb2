@@ -16,7 +16,7 @@ public class Categories implements Iterable<Category> {
         categories.add(category);
     }
 
-    public void initialiseCategories(Set<Category> categorySet){
+    public void initialiseCategories(Set<Category> categorySet) {
         categories = categorySet;
     }
 
@@ -48,7 +48,7 @@ public class Categories implements Iterable<Category> {
     }
 
     public List<Category> getSubCategoriesInclusiveThisCategory(Category highestCategory) {
-        List <Category> list = getSubCategories(highestCategory);
+        List<Category> list = getSubCategories(highestCategory);
         list.add(highestCategory);
         return List.copyOf(list);
     }
@@ -61,7 +61,7 @@ public class Categories implements Iterable<Category> {
 
     private boolean isSubCategory(Category highestCategory, Category category) {
         Category temp = category;
-        do{
+        do {
             temp = temp.getHigherLevelCategory();
             if (highestCategory.equals(temp))
                 return true;

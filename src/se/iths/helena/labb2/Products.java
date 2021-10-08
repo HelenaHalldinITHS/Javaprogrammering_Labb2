@@ -12,7 +12,7 @@ public class Products implements Iterable<Product> {
         products.add(product);
     }
 
-    public List<Long> getIds(){
+    public List<Long> getIds() {
         return products.stream().map(Product::id).toList();
     }
 

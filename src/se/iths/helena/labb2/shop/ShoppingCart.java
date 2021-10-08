@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ShoppingCart {
-    private Map<Product,Integer> shoppingCart;
+    private Map<Product, Integer> shoppingCart;
     private final List<Discountable> discounts = new ArrayList<>();
     private final Products products;
 
@@ -48,22 +48,22 @@ public class ShoppingCart {
 
     private int getAmountToAddToCart(Product product) {
         return InputHandler
-                .getIntegerInput(0,product.amountInStore(),
+                .getIntegerInput(0, product.amountInStore(),
                         "Det finns inte tillräckligt med varor i butiken, ange en lägre siffra: ");
     }
 
 
-    public void putProductInCart(Product product, int amount){
+    public void putProductInCart(Product product, int amount) {
         shoppingCart.put(product, amount);
     }
-    public int getAmountOfProductInCart(Product product){
+
+    public int getAmountOfProductInCart(Product product) {
         return shoppingCart.get(product);
     }
 
-    public boolean containsProduct(Product product){
+    public boolean containsProduct(Product product) {
         return shoppingCart.containsKey(product);
     }
-
 
 
     public void makePurchase() {

@@ -21,7 +21,7 @@ public class CsvWriter {
         writeToCSVFile(path, strings);
     }
 
-    public void saveProducts(Products products){
+    public void saveProducts(Products products) {
         Path path = Path.of(homeFolder, "Labb2", "product.csv");
         List<String> strings = new ArrayList<>();
         strings.add("#products");
@@ -38,7 +38,7 @@ public class CsvWriter {
         }
     }
 
-    private void csvRow(Product product, List<String> strings){
+    private void csvRow(Product product, List<String> strings) {
         StringBuilder stringBuilder = new StringBuilder();
         strings.add(stringBuilder.append(product.name())
                 .append(SEPARATOR)
@@ -54,7 +54,7 @@ public class CsvWriter {
                 .toString());
     }
 
-    private void csvRow(Category category, List<String> strings){
+    private void csvRow(Category category, List<String> strings) {
         StringBuilder stringBuilder = new StringBuilder();
         String nameOfHigherLevelCategory = category.getHigherLevelCategory().getName();
 
@@ -62,7 +62,7 @@ public class CsvWriter {
                 .append(SEPARATOR);
 
         if (nameOfHigherLevelCategory.equals("Categories"))
-             stringBuilder.append("-");
+            stringBuilder.append("-");
         else
             stringBuilder.append(nameOfHigherLevelCategory);
 

@@ -8,7 +8,7 @@ public class Controller {
     private static final int END_APPLICATION = 0;
     private static final Categories categories = new Categories();
     private static final Products products = new Products();
-    private static final List<Integer> VALID_CHOICES = List.of(END_APPLICATION,1,2,3);
+    private static final List<Integer> VALID_CHOICES = List.of(END_APPLICATION, 1, 2, 3);
 
     public static void main(String[] args) {
         readFromCsvFile();
@@ -31,8 +31,8 @@ public class Controller {
         }
     }
 
-    private static int getInput () {
-      return InputHandler.getIntegerInput(VALID_CHOICES);
+    private static int getInput() {
+        return InputHandler.getIntegerInput(VALID_CHOICES);
     }
 
     public static void printMenu() {
@@ -44,7 +44,7 @@ public class Controller {
         System.out.println(END_APPLICATION + ". Avsluta");
     }
 
-    private static void readFromCsvFile(){
+    private static void readFromCsvFile() {
         CsvReader csvR = new CsvReader();
         categories.initialiseCategories(csvR.readCategories());
         products.initialiseProducts(csvR.readProducts(categories));

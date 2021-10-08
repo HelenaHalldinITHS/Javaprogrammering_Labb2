@@ -23,7 +23,7 @@ public class Shop {
             int mainMenuChoice = getMainMenuChoice();
             if (mainMenuChoice == RETURN)
                 break;
-            runMainMenuChoice(mainMenuChoice,cart);
+            runMainMenuChoice(mainMenuChoice, cart);
         }
     }
 
@@ -55,7 +55,7 @@ public class Shop {
 
     public void moveProductFromStoreToCart(int amount, Product product, ShoppingCart cart) {
         if (cart.containsProduct(product))
-            cart.putProductInCart(product, cart.getAmountOfProductInCart(product)+amount);
+            cart.putProductInCart(product, cart.getAmountOfProductInCart(product) + amount);
         else
             cart.putProductInCart(product, amount);
 

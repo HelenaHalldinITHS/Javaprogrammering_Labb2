@@ -7,14 +7,14 @@ import java.util.Locale;
 public class CategoriesModifier {
     private static Categories categories;
     private static final int RETURN = 0;
-    private static final List<Integer> VALID_CHOICES = List.of(RETURN,1,2,3);
+    private static final List<Integer> VALID_CHOICES = List.of(RETURN, 1, 2, 3);
 
-    public static void initialise(Categories categoryFromController){
+    public static void initialise(Categories categoryFromController) {
         categories = categoryFromController;
     }
 
-    public static void run(){
-        while(true) {
+    public static void run() {
+        while (true) {
             printMenu();
             int input = getInput();
             if (input == RETURN)
@@ -24,7 +24,7 @@ public class CategoriesModifier {
 
     }
 
-    public static void printAllCategories(){
+    public static void printAllCategories() {
         System.out.println();
         categories.forEach(category -> System.out.println(category.getName()));
     }
@@ -43,7 +43,7 @@ public class CategoriesModifier {
 
         System.out.println();
         categories.get(name).ifPresent(category -> categories.getSubCategories(category)
-                .forEach( category1 -> System.out.println(category1.getName())));
+                .forEach(category1 -> System.out.println(category1.getName())));
     }
 
     private static void addCategory() {
@@ -84,11 +84,11 @@ public class CategoriesModifier {
         return InputHandler.getInput("Ange namnet på önskad kategori: ");
     }
 
-    private static int getInput () {
+    private static int getInput() {
         return InputHandler.getIntegerInput(VALID_CHOICES);
     }
 
-    private static void printMenu(){
+    private static void printMenu() {
         System.out.println();
         System.out.println("Vad vill du göra?: ");
         System.out.println("1. Lägg till kategorier");
@@ -96,7 +96,6 @@ public class CategoriesModifier {
         System.out.println("3. Se kategoris sub kategorier");
         System.out.println("0. Gå bakåt");
     }
-
 
 
 }
