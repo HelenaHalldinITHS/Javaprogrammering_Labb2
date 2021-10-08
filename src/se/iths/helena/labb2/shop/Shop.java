@@ -7,7 +7,7 @@ import java.util.List;
 public class Shop {
     private static Categories categories;
     private static Products products;
-    private static ShoppingCart cart;
+    private ShoppingCart cart;
 
     private static final int RETURN = 0;
     private static final List<Integer> VALID_CHOICES = List.of(RETURN, 1, 2, 3, 4, 5);
@@ -15,18 +15,20 @@ public class Shop {
     public static void initialise(Categories categoryFromController, Products productsFromController) {
         categories = categoryFromController;
         products = productsFromController;
-        cart = new ShoppingCart(products);
     }
 
     public static void run() {
+        ShoppingCart cart = new ShoppingCart(products);
+
         while (true) {
             printMainMenu();
             int mainMenuChoice = getMainMenuChoice();
             if (mainMenuChoice == RETURN)
                 break;
-            runMainMenuChoice(mainMenuChoice);
+            runMainMenuChoice(mainMenuChoice,cart);
         }
     }
+
 
     private static void printMainMenu() {
         System.out.println();
@@ -40,7 +42,7 @@ public class Shop {
 
     }
 
-    private static void runMainMenuChoice(int choice) {
+    private static void runMainMenuChoice(int choice, ShoppingCart cart) {
         switch (choice) {
             case 1 -> new NavigateThroughCategories(products, cart, categories);
             case 2 -> new FilterProducts(products, cart, categories);
@@ -54,6 +56,13 @@ public class Shop {
         return InputHandler.getIntegerInput(VALID_CHOICES);
     }
 
+    public void moveProductFromStoreToCart(int amount, Product product, ShoppingCart cart) {
+        if (cart.containsProduct(product))
+            cart.putProductInCart(product, cart.getAmountOfProductInCart(product)+amount);
+        else
+            cart.putProductInCart(product, amount);
 
+        product.decreaseInventory(amount);
+    }
 }
 

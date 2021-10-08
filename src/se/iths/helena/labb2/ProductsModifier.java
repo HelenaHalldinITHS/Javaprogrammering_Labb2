@@ -55,7 +55,7 @@ public class ProductsModifier {
         save();
     }
 
-    private static void save() {
+    public static void save() {
         CsvWriter csvWriter = new CsvWriter();
         csvWriter.saveProducts(products);
     }

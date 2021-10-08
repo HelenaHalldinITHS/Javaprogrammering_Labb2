@@ -56,6 +56,7 @@ public class Products implements Iterable<Product> {
                 .collect(Collectors.toList());
     }
 
+
     @Override
     public Iterator<Product> iterator() {
         return products.iterator();

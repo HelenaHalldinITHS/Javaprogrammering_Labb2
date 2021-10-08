@@ -41,36 +41,46 @@ public class ShoppingCart {
         System.out.println();
         System.out.println("Du har valt produkten: " + product.name());
         System.out.println("Hur många av denna produkt vill du addera till din varukorg? ");
-
         int amount = getAmountToAddToCart(product);
-        moveProductFromStoreToCart(amount, product);
+        Shop shop = new Shop();
+        shop.moveProductFromStoreToCart(amount, product, this);
     }
 
     private int getAmountToAddToCart(Product product) {
-        return InputHandler.getIntegerInput(0,product.amountInStore(), "Det finns inte tillräckligt med varor i butiken, ange en lägre siffra: ");
+        return InputHandler
+                .getIntegerInput(0,product.amountInStore(),
+                        "Det finns inte tillräckligt med varor i butiken, ange en lägre siffra: ");
     }
 
-    private void moveProductFromStoreToCart(int amount, Product product) {
-        if (shoppingCart.containsKey(product))
-            shoppingCart.put(product, shoppingCart.get(product)+amount);
-        else
-            shoppingCart.put(product, amount);
 
-        product.decreaseInventory(amount);
+    public void putProductInCart(Product product, int amount){
+        shoppingCart.put(product, amount);
     }
+    public int getAmountOfProductInCart(Product product){
+        return shoppingCart.get(product);
+    }
+
+    public boolean containsProduct(Product product){
+        return shoppingCart.containsKey(product);
+    }
+
+
 
     public void makePurchase() {
         System.out.println();
         System.out.println("GRATTIS! DU HAR GENOMFÖRT ETT KÖP");
         printReceipt();
-        saveUpdatedInventory();
+        ProductsModifier.save();
+        //saveUpdatedInventory();
         clearCart();
     }
 
+    /*
     private void saveUpdatedInventory() {
         CsvWriter csvWriter = new CsvWriter();
         csvWriter.saveProducts(products);
     }
+     */
 
     private void printReceipt() {
         System.out.println("DITT KVITTO: ");
