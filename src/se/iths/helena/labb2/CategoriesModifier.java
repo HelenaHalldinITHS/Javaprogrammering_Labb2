@@ -85,7 +85,7 @@ public class CategoriesModifier {
     }
 
     private static int getInput () {
-        return InputHandler.getInput(VALID_CHOICES);
+        return InputHandler.getIntegerInput(VALID_CHOICES);
     }
 
     private static void printMenu(){

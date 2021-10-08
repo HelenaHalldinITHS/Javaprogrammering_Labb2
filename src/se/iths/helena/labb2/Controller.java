@@ -30,7 +30,7 @@ public class Controller {
     }
 
     private static int getInput () {
-      return InputHandler.getInput(VALID_CHOICES);
+      return InputHandler.getIntegerInput(VALID_CHOICES);
     }
 
     public static void printMenu() {

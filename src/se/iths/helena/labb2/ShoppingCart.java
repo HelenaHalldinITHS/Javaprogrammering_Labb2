@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ShoppingCart {
-    private static final Scanner scanner = new Scanner(System.in);
     private Map<Product,Integer> shoppingCart;
     private final List<Discountable> discounts = new ArrayList<>();
     private final Products products;
@@ -32,7 +31,7 @@ public class ShoppingCart {
         System.out.println();
         System.out.println("VILL DU LÄGGA TILL DENNA VARA I DIN VARUKORG?");
         System.out.println("Skriv då JA");
-        if (scanner.nextLine().toLowerCase(Locale.ROOT).equals("ja"))
+        if (InputHandler.getInput().toLowerCase(Locale.ROOT).equals("ja"))
             addToCart(product);
     }
 
@@ -46,16 +45,7 @@ public class ShoppingCart {
     }
 
     private int getAmountToAddToCart(Product product) {
-        int amount;
-        do {
-            amount = Integer.parseInt(scanner.nextLine());
-            if (amount > product.amountInStore())
-                System.out.println("Det finns inte tillräckligt med varor i butiken, ange en lägre siffra");
-            else
-                break;
-        } while (true);
-
-        return amount;
+        return InputHandler.getIntegerInput(0,product.amountInStore(), "Det finns inte tillräckligt med varor i butiken, ange en lägre siffra: ");
     }
 
     private void moveProductFromStoreToCart(int amount, Product product) {
@@ -63,6 +53,7 @@ public class ShoppingCart {
             shoppingCart.put(product, shoppingCart.get(product)+amount);
         else
             shoppingCart.put(product, amount);
+
         product.decreaseInventory(amount);
     }
 
@@ -70,11 +61,11 @@ public class ShoppingCart {
         System.out.println();
         System.out.println("GRATTIS! DU HAR GENOMFÖRT ETT KÖP");
         printReceipt();
-        updateInventory();
+        saveUpdatedInventory();
         clearCart();
     }
 
-    private void updateInventory() {
+    private void saveUpdatedInventory() {
         CsvWriter csvWriter = new CsvWriter();
         csvWriter.saveProducts(products);
     }
@@ -98,7 +89,6 @@ public class ShoppingCart {
     }
 
 }
-
 
 class firstLevelDiscount implements Discountable {
     @Override

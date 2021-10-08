@@ -27,13 +27,6 @@ public class Category {
         return name;
     }
 
-    /*
-    public Category get(String nameOfCategory) {
-        return new Category(nameOfCategory);
-    }
-
-     */
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

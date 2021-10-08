@@ -1,15 +1,23 @@
 package se.iths.helena.labb2;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+//OBSOBS
+//Filläsning och filskrivning använder try with för att stänga filerna automatiskt.
+// try(FileWriter fileWriter = new FileWriter(path) ){}
+
 
 public class CsvWriter {
     private static final String homeFolder = System.getProperty("user.home");
+    private static final String SEPARATOR = ";";
 
     public void saveCategories(Categories categories) {
         Path path = Path.of(homeFolder, "Labb2", "category.csv");
@@ -39,11 +47,11 @@ public class CsvWriter {
 
     private void creatStringArrForCategory(String[] temp, Category category, List<String[]> data) {
         temp[0] = category.getName();
-        String string = category.getHigherLevelCategory().getName();
-        if (string.equals("Categories"))
+        String nameOfHigherLevelCategory = category.getHigherLevelCategory().getName();
+        if (nameOfHigherLevelCategory.equals("Categories"))
             temp[1] = "-";
         else
-            temp[1] = string;
+            temp[1] = nameOfHigherLevelCategory;
         data.add(temp.clone());
     }
 
@@ -51,12 +59,15 @@ public class CsvWriter {
         List<String> strings = new ArrayList<>();
         strings.add(label);
         strings.addAll(getDataAsListOfStrings(data));
+
         try {
             Files.write(path, strings, StandardOpenOption.CREATE);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
+
 
     private List<String> getDataAsListOfStrings(List<String[]> dataLines) {
         return dataLines.stream()
@@ -65,6 +76,6 @@ public class CsvWriter {
     }
 
     public String convertToCSV(String[] data) {
-        return String.join(";", data);
+        return String.join(SEPARATOR, data);
     }
 }
