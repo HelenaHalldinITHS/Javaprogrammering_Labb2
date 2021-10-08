@@ -1,4 +1,4 @@
-package se.iths.helena.labb2;
+package se.iths.helena.labb2.shop;
 
 @FunctionalInterface
 public interface Discountable {

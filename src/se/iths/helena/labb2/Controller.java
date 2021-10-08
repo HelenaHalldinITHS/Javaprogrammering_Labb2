@@ -1,5 +1,7 @@
 package se.iths.helena.labb2;
 
+import se.iths.helena.labb2.shop.Shop;
+
 import java.util.List;
 
 public class Controller {

@@ -1,4 +1,6 @@
-package se.iths.helena.labb2;
+package se.iths.helena.labb2.shop;
+
+import se.iths.helena.labb2.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -11,7 +13,7 @@ public class ShoppingCart {
     public ShoppingCart(Products products) {
         this.products = products;
         shoppingCart = new HashMap<>();
-        discounts.addAll(List.of(new firstLevelDiscount(), new secondLevelDiscount(), new thirdLevelDiscount()));
+        discounts.addAll(List.of(new FirstLevelDiscount(), new SecondLevelDiscount(), new ThirdLevelDiscount()));
     }
 
     public void viewContent() {
@@ -90,30 +92,3 @@ public class ShoppingCart {
 
 }
 
-class firstLevelDiscount implements Discountable {
-    @Override
-    public double getDiscountedPrice(double price) {
-        if (price >= 100 && price < 250)
-            return price * 0.9;
-        return price;
-    }
-}
-
-class secondLevelDiscount implements Discountable {
-    @Override
-    public double getDiscountedPrice(double price) {
-        if (price >= 250 && price < 500)
-            return price * 0.8;
-        return price;
-    }
-}
-
-class thirdLevelDiscount implements Discountable {
-
-    @Override
-    public double getDiscountedPrice(double price) {
-        if (price >= 500)
-            return price * 0.7;
-        return price;
-    }
-}
