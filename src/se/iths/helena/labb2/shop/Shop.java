@@ -7,7 +7,6 @@ import java.util.List;
 public class Shop {
     private static Categories categories;
     private static Products products;
-    private ShoppingCart cart;
 
     private static final int RETURN = 0;
     private static final List<Integer> VALID_CHOICES = List.of(RETURN, 1, 2, 3, 4, 5);
@@ -28,7 +27,6 @@ public class Shop {
             runMainMenuChoice(mainMenuChoice,cart);
         }
     }
-
 
     private static void printMainMenu() {
         System.out.println();
