@@ -2,17 +2,10 @@ package se.iths.helena.labb2;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-//OBSOBS
-//Filläsning och filskrivning använder try with för att stänga filerna automatiskt.
-// try(FileWriter fileWriter = new FileWriter(path) ){}
 
 
 public class CsvWriter {
@@ -21,61 +14,60 @@ public class CsvWriter {
 
     public void saveCategories(Categories categories) {
         Path path = Path.of(homeFolder, "Labb2", "category.csv");
-        List<String[]> data = new ArrayList<>();
-        String[] temp = new String[2];
-        categories.forEach(category -> creatStringArrForCategory(temp, category, data));
-        writeToCsvFile(data, path, "#category");
-    }
-
-    public void saveProducts(Products products) {
-        Path path = Path.of(homeFolder, "Labb2", "product.csv");
-        List<String[]> data = new ArrayList<>();
-        String[] temp = new String[6];
-        products.forEach(product -> creatStringArrForProduct(temp, product, data));
-        writeToCsvFile(data, path, "#product");
-    }
-
-    private void creatStringArrForProduct(String[] temp, Product product, List<String[]> data) {
-        temp[0] = product.name();
-        temp[1] = String.valueOf(product.price());
-        temp[2] = product.category().getName();
-        temp[3] = product.brand();
-        temp[4] = String.valueOf(product.id());
-        temp[5] = String.valueOf(product.amountInStore());
-        data.add(temp.clone());
-    }
-
-    private void creatStringArrForCategory(String[] temp, Category category, List<String[]> data) {
-        temp[0] = category.getName();
-        String nameOfHigherLevelCategory = category.getHigherLevelCategory().getName();
-        if (nameOfHigherLevelCategory.equals("Categories"))
-            temp[1] = "-";
-        else
-            temp[1] = nameOfHigherLevelCategory;
-        data.add(temp.clone());
-    }
-
-    private void writeToCsvFile(List<String[]> data, Path path, String label) {
         List<String> strings = new ArrayList<>();
-        strings.add(label);
-        strings.addAll(getDataAsListOfStrings(data));
+        strings.add("#category");
+        categories.forEach(category -> csvRow(category, strings));
 
+        writeToCSVFile(path, strings);
+    }
+
+    public void saveProducts(Products products){
+        Path path = Path.of(homeFolder, "Labb2", "product.csv");
+        List<String> strings = new ArrayList<>();
+        strings.add("#products");
+        products.forEach(product -> csvRow(product, strings));
+
+        writeToCSVFile(path, strings);
+    }
+
+    private void writeToCSVFile(Path path, List<String> strings) {
         try {
             Files.write(path, strings, StandardOpenOption.CREATE);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void csvRow(Product product, List<String> strings){
+        StringBuilder stringBuilder = new StringBuilder();
+        strings.add(stringBuilder.append(product.name())
+                .append(SEPARATOR)
+                .append(product.price())
+                .append(SEPARATOR)
+                .append(product.category().getName())
+                .append(SEPARATOR)
+                .append(product.brand())
+                .append(SEPARATOR)
+                .append(product.id())
+                .append(SEPARATOR)
+                .append(product.amountInStore())
+                .toString());
+    }
+
+    private void csvRow(Category category, List<String> strings){
+        StringBuilder stringBuilder = new StringBuilder();
+        String nameOfHigherLevelCategory = category.getHigherLevelCategory().getName();
+
+        stringBuilder.append(category.getName())
+                .append(SEPARATOR);
+
+        if (nameOfHigherLevelCategory.equals("Categories"))
+             stringBuilder.append("-");
+        else
+            stringBuilder.append(nameOfHigherLevelCategory);
+
+        strings.add(stringBuilder.toString());
 
     }
 
-
-    private List<String> getDataAsListOfStrings(List<String[]> dataLines) {
-        return dataLines.stream()
-                .map(this::convertToCSV)
-                .collect(Collectors.toList());
-    }
-
-    public String convertToCSV(String[] data) {
-        return String.join(SEPARATOR, data);
-    }
 }
